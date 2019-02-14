@@ -1,0 +1,111 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<mat-toolbar color="primary">
+  <span>Compare.com</span>
+</mat-toolbar>
+
+<div class="container">
+  <mat-horizontal-stepper [linear]="true" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Driver</ng-template>
+        <mat-form-field>
+          <input matInput placeholder="First name" formControlName="firstNameCtrl" required>
+          <mat-error *ngIf="firstFormGroup.controls.firstNameCtrl.hasError('required')">
+            This field is required
+          </mat-error>
+          <mat-error *ngIf="firstFormGroup.controls.firstNameCtrl.hasError('maxlength')">
+            This field cannot be longer than 25 characters
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Last name" formControlName="lastNameCtrl" required>
+          <mat-error *ngIf="firstFormGroup.controls.lastNameCtrl.hasError('required')">
+            This field is required
+          </mat-error>
+          <mat-error *ngIf="firstFormGroup.controls.lastNameCtrl.hasError('maxlength')">
+            This field cannot be longer than 25 characters
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput type="date" placeholder="Date of birth" formControlName="dobCtrl" required>
+          <mat-error *ngIf="firstFormGroup.controls.dobCtrl.hasError('required')">
+            This field is required
+          </mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button color="accent" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Vehicle</ng-template>
+        <mat-form-field>
+          <input matInput type="number" placeholder="Year" formControlName="vehicleYearCtrl" required>
+          <mat-error *ngIf="secondFormGroup.controls.vehicleYearCtrl.hasError('required')">
+            This field is required
+          </mat-error>
+          <mat-error *ngIf="(secondFormGroup.controls.vehicleYearCtrl.hasError('min') || secondFormGroup.controls.vehicleYearCtrl.hasError('max')) && !firstFormGroup.controls.firstNameCtrl.hasError('required')">
+            This field must be between 1970 and {{maxModelYear}}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="Make" formControlName="vehicleMakeCtrl" required>
+            <mat-option *ngFor="let make of makes" [value]="make.value">
+              {{make.viewValue}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="secondFormGroup.controls.vehicleMakeCtrl.hasError('required')">
+            This field is required
+          </mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-stroked-button matStepperPrevious>Back</button> &nbsp;
+          <button mat-raised-button mat-raised-button color="accent" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Review Your Information</ng-template>
+      <mat-list>
+        <mat-list-item>
+          <h3 matLine>First Name</h3>
+          <p matLine>
+            {{firstFormGroup.value.firstNameCtrl}}
+          </p>
+        </mat-list-item>
+        <mat-list-item>
+          <h3 matLine>Last Name</h3>
+          <p matLine>
+            {{firstFormGroup.value.lastNameCtrl}}
+          </p>
+        </mat-list-item>
+        <mat-list-item>
+          <h3 matLine>Date of Birth</h3>
+          <p matLine>
+            {{firstFormGroup.value.dobCtrl | date:"MM/dd/yyyy"}}
+          </p>
+        </mat-list-item>
+        <mat-list-item>
+          <h3 matLine>Vehicle Year</h3>
+          <p matLine>
+            {{secondFormGroup.value.vehicleYearCtrl}}
+          </p>
+        </mat-list-item>
+        <mat-list-item>
+          <h3 matLine>Vehicle Make</h3>
+          <p matLine>
+            {{secondFormGroup.value.vehicleMakeCtrl}}
+          </p>
+        </mat-list-item>
+      </mat-list>
+      <div>
+        <button mat-stroked-button matStepperPrevious>Back</button> &nbsp;
+        <button mat-raised-button mat-raised-button color="primary" matStepperNext>Get Quote!</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
