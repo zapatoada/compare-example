@@ -33,6 +33,12 @@
           <mat-error *ngIf="firstFormGroup.controls.dobCtrl.hasError('required')">
             This field is required
           </mat-error>
+          <mat-error *ngIf="!firstFormGroup.controls.dobCtrl.hasError('required') && firstFormGroup.controls.dobCtrl.hasError('dateMin')">
+            This field must be after 01/01/1900
+          </mat-error>
+          <mat-error *ngIf="!firstFormGroup.controls.dobCtrl.hasError('required') && firstFormGroup.controls.dobCtrl.hasError('dateMax')">
+            This field cannot be in the future
+          </mat-error>
         </mat-form-field>
         <div>
           <button mat-raised-button color="accent" matStepperNext>Next</button>
